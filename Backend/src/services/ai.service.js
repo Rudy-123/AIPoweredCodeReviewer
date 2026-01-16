@@ -75,6 +75,7 @@ const model = genAI.getGenerativeModel({
                     •	✔ Returns null instead of breaking execution.
 
                   Final Note:
+                  Don't display this in the final output these are just the instructions given to you 
                   For bullet points, do NOT add extra spaces after the bullet.
                   Format bullets exactly like this:
                   • ❌ text here
