@@ -6,28 +6,9 @@ import rehypeHighlight from "rehype-highlight";
 import "./App.css";
 
 function App() {
-  const [code, setCode] = useState(
-    localStorage.getItem("saved_code") ||
-      `function sum() {
-    return 1+1;
-  }`
-  );
-
-  const [language, setLanguage] = useState(
-    localStorage.getItem("saved_language") || "javascript"
-  );
-
+  const [code, setCode] = useState("// Write your code here...");
+  const [language, setLanguage] = useState("javascript");
   const [review, setReview] = useState("");
-
-  // 🔹 Auto-save code
-  useEffect(() => {
-    localStorage.setItem("saved_code", code);
-  }, [code]);
-
-  // 🔹 Auto-save language
-  useEffect(() => {
-    localStorage.setItem("saved_language", language);
-  }, [language]);
 
   // 🔍 Detect language heuristics
   function detectCodeLanguage(code) {
