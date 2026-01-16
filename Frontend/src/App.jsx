@@ -89,10 +89,13 @@ function App() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/ai/get-review", {
-        code,
-        language,
-      });
+      const response = await axios.post(
+        "https://aipoweredcodereviewer-6vrm.onrender.com/",
+        {
+          code,
+          language,
+        }
+      );
       setReview(response.data.output || response.data);
     } catch (err) {
       console.error(err);
