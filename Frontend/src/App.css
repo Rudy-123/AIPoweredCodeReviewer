@@ -1,0 +1,240 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* GLOBAL */
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  background: #0f111a;
+  color: #e6e6e6;
+  font-family: "Inter", "JetBrains Mono", monospace;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* MAIN LAYOUT */
+main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* PANELS */
+main .left,
+main .right {
+  flex: 1;
+  border-radius: 12px;
+  background: #161b26;
+  border: 1px solid #252a34;
+  overflow: hidden;
+}
+
+/* LEFT PANEL */
+main .left {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPBAR */
+.editor-topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: #1c212e;
+  border-bottom: 1px solid #252a34;
+  height: 45px;
+}
+
+/* CODE CONTAINER — no scrolling here */
+.left .code {
+  flex: 1;
+  width: 100%;
+  background: #1a1f2e;
+  overflow: hidden !important; /* <- CRITICAL */
+  position: relative;
+  border-bottom: 1px solid #2c3240;
+}
+
+/* TEXTAREA — main scroll happens here */
+.code textarea {
+  width: 100% !important;
+  height: 100% !important;
+  resize: none !important;
+  outline: none !important;
+  border: none !important;
+  background: transparent;
+  color: #dcdfe4;
+
+  font-family: "JetBrains Mono", monospace !important;
+  font-size: 16px !important;
+  line-height: 1.5rem !important;
+
+  padding: 1rem !important;
+  overflow: auto !important; /* <- single smooth scrolling */
+
+  white-space: pre !important;
+}
+
+/* PRISM RENDERED PRE — NEVER scroll, NEVER overflow */
+.left .code pre {
+  margin: 0 !important;
+  padding: 1rem !important;
+
+  font-family: "JetBrains Mono", monospace !important;
+  font-size: 16px !important;
+  line-height: 1.5rem !important;
+  white-space: pre !important;
+
+  overflow: hidden !important; /* <- CRITICAL */
+  height: auto !important; /* <- Matches textarea height */
+  min-height: 100%;
+}
+
+.token {
+  line-height: inherit !important;
+}
+
+/* RIGHT OUTPUT PANEL */
+main .right {
+  padding: 1rem 1.5rem;
+  font-size: 15px;
+  line-height: 1.6rem;
+  white-space: pre-wrap;
+  overflow: auto;
+  color: #dcdfe4;
+}
+
+/* INLINE CODE */
+main .right code {
+  background: #252b3a;
+  padding: 2px 6px;
+  border-radius: 6px;
+  color: #8be9fd;
+  font-size: 14px;
+}
+
+/* BLOCK CODE */
+main .right pre {
+  background: #1b2233;
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 0.7rem 0;
+  border: 1px solid #2e3448;
+  color: #c8d7ff;
+}
+
+/* === REVIEW BUTTON === */
+.review {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  font-weight: 1000;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  user-select: none;
+  background: linear-gradient(135deg, #5a6aff, #962eff);
+  color: #fff;
+  border: none;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.45),
+    0px 0px 18px rgba(120, 130, 255, 0.65);
+  transition: 0.18s;
+}
+
+.review:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.55),
+    0px 0px 28px rgba(120, 130, 255, 0.85);
+}
+
+.review:active {
+  transform: translateY(2px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6),
+    0px 0px 12px rgba(120, 130, 255, 0.55);
+}
+
+/* DROPDOWN WRAPPER */
+.lang-select-wrapper {
+  position: relative;
+}
+
+.lang-select {
+  appearance: none;
+  padding: 8px 36px 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+
+  /* CRITICAL CHANGE: Tells browser to use dark system UI */
+  color-scheme: dark;
+
+  background: linear-gradient(135deg, #0f1420, #1d2333);
+  color: #d2e0ff;
+  border: 1px solid #3a4256;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* This targets the actual list items in many modern browsers */
+.lang-select option {
+  background-color: #161b26; /* Matches your main panel color */
+  color: #d2e0ff;
+  padding: 10px;
+}
+
+.lang-select:hover {
+  border-color: #5a6aff;
+  background: linear-gradient(135deg, #131827, #242c3f);
+  box-shadow: 0 4px 18px rgba(90, 106, 255, 0.35);
+}
+
+.lang-select:focus {
+  border-color: #7d88ff;
+  box-shadow: 0 0 0 2px rgba(125, 136, 255, 0.35),
+    0 6px 20px rgba(125, 136, 255, 0.25);
+}
+
+/* ARROW ICON */
+.lang-select-wrapper::after {
+  content: "▼";
+  font-size: 10px;
+  color: #d2e0ff;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: transform 0.25s ease;
+}
+
+.lang-select-wrapper:focus-within::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* CUSTOM SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a4157;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4b5573;
+}
+::-webkit-scrollbar-track {
+  background: #0f111a;
+}
