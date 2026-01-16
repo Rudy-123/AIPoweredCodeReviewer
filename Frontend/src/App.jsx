@@ -9,8 +9,8 @@ function App() {
   const [code, setCode] = useState(
     localStorage.getItem("saved_code") ||
       `function sum() {
-  return 1+1;
-}`
+    return 1+1;
+  }`
   );
 
   const [language, setLanguage] = useState(
@@ -90,7 +90,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        "https://aipoweredcodereviewer-6vrm.onrender.com/",
+        "https://aipoweredcodereviewer-6vrm.onrender.com/ai/get-review",
         {
           code,
           language,
