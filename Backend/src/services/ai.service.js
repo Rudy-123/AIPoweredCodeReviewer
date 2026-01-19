@@ -1,4 +1,5 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const prettier = require("prettier");
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_KEY);
 
@@ -97,16 +98,47 @@ Examples the model may use:
 - "Good job handling edge cases."
 - "No issues detected — solid implementation."
 
-Respond strictly according to the above logic.
-
+Respond strictly according to the above logic and if you give code with changes then please give it in proper formatted manner. Like prettier does in vscode you also give in same pattern.
+Give each and every issue and improvements in new lines strictly
 `,
 });
+
+async function formatCodeBlocks(text) {
+  const codeRegex = /```(.*?)\n([\s\S]*?)```/g;
+
+  return text.replace(codeRegex, (match, lang, code) => {
+    try {
+      if (
+        ["js", "javascript", "node", "ts", ""].includes(
+          lang.trim().toLowerCase(),
+        )
+      ) {
+        const formatted = prettier.format(code, {
+          parser: "babel",
+          semi: true,
+          singleQuote: false,
+        });
+        return `\`\`\`${lang}\n${formatted}\`\`\``;
+      }
+      return match;
+    } catch (err) {
+      console.log("Formatting failed:", err.message);
+      return match;
+    }
+  });
+}
 
 async function generateContent(prompt) {
   try {
     console.log("Sending prompt to Gemini:", prompt);
+
     const result = await model.generateContent(prompt);
-    return result.response.text();
+
+    let text = result.response.text();
+
+    text = await formatCodeBlocks(text);
+
+    return text;
   } catch (error) {
     console.error("GEMINI ERROR FULL:", error);
     throw error;
