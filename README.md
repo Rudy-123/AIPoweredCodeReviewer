@@ -1,173 +1,119 @@
-
-
-````markdown
 # ⚡ AI Powered Code Reviewer  
 ### Intelligent Automated Code Review Assistant
 
-![AI Reviewer Banner](https://user-images.githubusercontent.com/placeholder/ai-reviewer-banner.png)
 
 ---
 
 ## 📖 Project Overview
 
-**AI Powered Code Reviewer** is a real-time code analysis tool designed to help developers get instant, intelligent feedback on their code. It leverages advanced AI models to perform semantic and stylistic code reviews, catching bugs, suggesting improvements, and ensuring best practices are followed.
+**AI Powered Code Reviewer** is a real-time code analysis tool designed to help developers get instant, intelligent feedback on their code. It uses an AI model to analyze source code, identify issues, and suggest improvements related to logic, readability, and best practices.
 
-Instead of manual code reviews that take time and effort, this platform provides **AI-driven insights** with **actionable recommendations** instantly. It enables developers to quickly enhance code quality, improve readability, and maintain consistency across projects.
+Instead of relying on manual code reviews, this platform provides **automated AI-driven feedback** that helps developers quickly understand potential problems and improve code quality. It is suitable for learning purposes, personal projects, and basic development workflows.
 
-Available as both a **web interface** and a **GitHub repository**, it’s perfect as a learning tool, team assistant, or integration into development workflows.
+The project is accessible through a **web-based interface** and is also available as a **GitHub repository**.
 
 ---
 
 ## 🏗️ System Architecture
 
-This application follows a **Client–Server–AI** architecture, seamlessly combining UI interaction with backend logic and large language model APIs.
+This application follows a **Client–Server–AI** architecture where the frontend, backend, and AI model work together to process and review code.
 
 ### High-Level Architecture
 
 ```mermaid
 graph TD
-    classDef frontend fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px,color:#000;
-    classDef backend fill:#fff8e1,stroke:#e65100,stroke-width:2px,color:#000;
-    classDef aiService fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px,color:#000;
-    classDef userNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000;
+    User((👤 User))
+    WebUI[💻 Web Interface]
+    Backend[⚙️ Backend API]
+    Gemini[🤖 Gemini LLM API]
 
-    User((👤 User)):::userNode
-
-    subgraph Frontend
-        WebApp[💻 Next.js Web UI<br/><i>Form / Editor / Results</i>]:::frontend
-    end
-
-    subgraph Backend
-        API[⚙️ FastAPI Server]:::backend
-        Router[📡 API Router]:::backend
-    end
-
-    subgraph AI_Provider
-        LLM[🔮 LLM Model API<br/><i>OpenAI / Anthropic / Custom</i>]:::aiService
-    end
-
-    User --> WebApp
-    WebApp <--> API
-    API --> LLM
-    LLM --> API
-    API --> WebApp
-````
+    User --> WebUI
+    WebUI --> Backend
+    Backend --> Gemini
+    Gemini --> Backend
+    Backend --> WebUI
+```
 
 ---
 
-## ⚙️ Engineering Pipeline
+## ⚙️ Application Flow
 
-### 1. Frontend — Smart UI
+### 1. User Interface
 
 The web interface allows users to:
 
-* Input Code (multiple languages)
-* View AI Review feedback
-* Navigate suggestions and improve quickly
+- Paste or write source code
+- Submit code for review
+- View AI-generated feedback and suggestions
 
-It’s built with **Next.js** for fast interactivity and SSR performance.
-
-**Frontend Highlights:**
-
-* Code editor
-* Syntax highlighting
-* AI review results panel
-* Responsive design
+The focus is on simplicity and ease of use.
 
 ---
 
-### 2. Backend — Review Orchestrator
+### 2. Backend Processing
 
-The backend is responsible for:
+The backend handles:
 
-* Accepting review requests
-* Validating user input
-* Communicating with the AI service
-* Returning structured suggestions
-
-Utilizes **FastAPI** for high-performance REST requests.
+- Receiving code from the frontend
+- Validating input
+- Sending the code to the AI model
+- Returning the AI-generated review to the frontend
 
 ---
 
-### 3. AI Service — Intelligent Recommendations
+### 3. AI Code Review (Gemini)
 
-Instead of static linters, this system uses **AI language models** to provide:
+The system uses **Google Gemini LLM** to:
 
-* Bug detection
-* Code improvement suggestions
-* Best-practice enforcement
-* Style recommendations
-
-Adjustable model selection allows for flexibility between speed and depth.
+- Analyze the logic of the code
+- Identify possible bugs or improvements
+- Suggest cleaner and more readable approaches
+- Provide general best-practice recommendations
 
 ---
 
 ## 🔄 Review Workflow
 
-Here’s the lifecycle of a single code review request:
+1. **User submits code**
+   - Code is sent from the web interface to the backend
 
-1. **User Submits Code**
+2. **Backend processes request**
+   - Input is validated and formatted
 
-   * Code is sent from the UI to the backend.
-2. **Backend Receives & Validates**
+3. **Gemini model analysis**
+   - Code is sent to the Gemini LLM for review
 
-   * Checks request structure and supported language.
-3. **AI Model Invocation**
+4. **Feedback generated**
+   - Gemini returns suggestions and observations
 
-   * Backend sends code + prompt to an AI model.
-4. **Model Returns Feedback**
-
-   * Suggestions, warnings, improvements.
-5. **Frontend Renders Results**
-
-   * User sees actionable insights instantly.
+5. **Results displayed**
+   - Feedback is shown to the user in the browser
 
 ---
 
 ## 🛠️ Key Features
 
-| Feature                    | Implementation  | Benefit                    |
-| -------------------------- | --------------- | -------------------------- |
-| **AI Code Insights**       | LLM Model API   | Smart review beyond syntax |
-| **Multi-Language Support** | Dynamic prompts | Handles various languages  |
-| **Instant Feedback**       | Async API       | No waiting for results     |
-| **Web UI Editor**          | Code editor UI  | Easy code input            |
-| **Scalable Design**        | Modular backend | Production readiness       |
-
----
-
-## 💻 Tech Stack
-
-### Frontend
-
-* **Framework:** Next.js
-* **Editor:** Browser-based code editor
-* **Styling:** TailwindCSS
-
-### Backend
-
-* **Framework:** FastAPI
-* **Runtime:** Python & Async
-* **API:** REST endpoints
-
-### AI Integration
-
-* **Providers:** OpenAI, Anthropic, Custom LLM
-* **Communication:** API prompts & responses
+| Feature                   | Description                          |
+|---------------------------|--------------------------------------|
+| **AI Code Review**        | Automated review using Gemini LLM    |
+| **Instant Feedback**      | Fast response after submission       |
+| **Web-Based Interface**   | No setup required for usage          |
+| **Multiple Languages**    | Works with common programming languages |
+| **Simple & Clean Design** | Easy to understand and use           |
 
 ---
 
 ## 🚀 Live Demo
 
-Check out the live deployed version:
+Try the deployed application here:
 
-➡️ [https://ai-powered-code-reviewer-flax.vercel.app/](https://ai-powered-code-reviewer-flax.vercel.app/)
+➡️ https://ai-powered-code-reviewer-flax.vercel.app/
 
 ---
 
 ## 📌 Getting Started
 
-### 1. Clone Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Rudy-123/AIPoweredCodeReviewer.git
@@ -177,47 +123,31 @@ cd AIPoweredCodeReviewer
 ### 2. Install Dependencies
 
 ```bash
-npm install
 pip install -r requirements.txt
 ```
 
-### 3. Configuration
+### 3. Environment Configuration
 
-Add your environment variables (API keys etc) in `.env`:
+Create a `.env` file and add your Gemini API key:
 
 ```env
-OPENAI_API_KEY=your_api_key_here
+GEMINI_API_KEY=your_api_key_here
 ```
 
-### 4. Run Backend
+### 4. Run the Backend
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-### 5. Run Frontend
+### 5. Open the Application
 
-```bash
-npm run dev
-```
-
-### 6. Visit App
-
-Open in browser:
-
-```
-http://localhost:3000
-```
+Open the frontend in your browser as configured in the project.
 
 ---
-
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.
-See LICENSE file for more details.
-
----
-
-
+This project is licensed under the **MIT License**.  
+Refer to the `LICENSE` file for more information.
 
